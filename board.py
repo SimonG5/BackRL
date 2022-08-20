@@ -1,7 +1,6 @@
 RED = 1
 BLACK = 0
 
-
 class Board:
     def __init__(self):
         self.outputMapping = {}
@@ -86,6 +85,9 @@ class Board:
         print(returnString)
 
     def addCheckerToPoint(self, playerColor, move):
+        if move == "Cannot/Move":
+            return
+
         moveFormat = move.split("/")
         if moveFormat[0] == "bar":
             fromType = "BAR"
@@ -140,9 +142,22 @@ class Board:
             else:
                 self.points[toPoint] += 1
 
-    def isValidMove(self, move):
-        if move == "Cannot/move":
-            return False
+    def isValidMove(self,color, move):
+        moveFormat = move.split("/")
+        if moveFormat[0] == "bar":
+            fromType = "BAR"
+            fromPoint = 0
+        else:
+            fromType = "NORMAL"
+            fromPoint = int(moveFormat[0])
+
+        if moveFormat[1] == "off":
+            toPoint = 0
+            toType = "OFF"
+        else:
+            toPoint = int(moveFormat[1])
+            toType = "NORMAL"
+
         return True
 
     def isGameOver(self):
